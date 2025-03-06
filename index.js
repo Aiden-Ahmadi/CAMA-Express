@@ -1,15 +1,25 @@
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
+require("dotenv").config(); // Load environment variables
 
 const app = express();
 app.use(cors()); // Allow frontend to access API
 app.use(express.json()); // Parse JSON request bodies
 
-// Sample route
+// Connect to MongoDB Atlas
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch(err => console.error("❌ MongoDB Connection Error:", err));
+
+// Import routes
+const userRoutes = require("./routes/users");
+app.use("/users", userRoutes); // Use users.js routes
+
+// Default route
 app.get("/", (req, res) => {
-  res.send("Hello from Express on Render!");
+  res.send("Welcome to the Express API with MongoDB!");
 });
 
-// Deploy on Render's default port
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
