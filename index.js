@@ -14,7 +14,9 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 
 // Import routes
 const userRoutes = require("./routes/users");
+const postRoutes = require("./routes/posts");
 app.use("/users", userRoutes); // Use users.js routes
+app.use("/posts", postRoutes)
 
 // Default route
 app.get("/", (req, res) => {
