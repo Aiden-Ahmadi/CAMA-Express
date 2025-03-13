@@ -1,11 +1,11 @@
-const Post = require("../models/Post");
+const Post = require("../models/post");
 const User = require("../models/User");
 
 const getUserPosts = async (req, res) => {
     try {
         const posts = await Post.findById(req.params.id);
         if (!posts) return res.status(404).json({ message: "User not found" });
-        res.json(user);
+        res.json(posts);
     } catch (error) {
         res.status(500).json({ error: "Server error" });
     }
