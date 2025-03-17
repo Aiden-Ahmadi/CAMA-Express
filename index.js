@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config(); // Load environment variables
+const cloudinary = require("cloudinary").v2;
+cloudinary.config(); // Reads CLOUDINARY_URL from .env
+
 
 const app = express();
 app.use(cors()); // Allow frontend to access API
