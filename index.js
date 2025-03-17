@@ -15,9 +15,10 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 // Import routes
 const userRoutes = require("./routes/users");
 const postRoutes = require("./routes/posts");
+const authRoutes = require("./routes/auth");
 app.use("/users", userRoutes); // Use users.js routes
 app.use("/posts", postRoutes)
-
+app.use("/auth", authRoutes);
 // Default route
 app.get("/", (req, res) => {
   res.send("Welcome to the Express API with MongoDB!");
