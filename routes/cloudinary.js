@@ -20,7 +20,9 @@ router.get("/generate-signature", (req, res) => {
     { timestamp, upload_preset: "Post" },
     process.env.API_SECRET
   );
+  console.log(timestamp);
   console.log(signature);
+  console.log(process.env.API_KEY);
 
   // Send the signature, timestamp, and API key to the frontend
   res.json({ timestamp, signature, api_key: process.env.API_KEY });
