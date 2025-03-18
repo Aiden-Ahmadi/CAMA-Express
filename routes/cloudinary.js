@@ -11,13 +11,16 @@ cloudinary.config({
 
 // Generate a signed upload signature
 router.get("/generate-signature", (req, res) => {
+    console.log("start");
   const timestamp = Math.round(new Date().getTime() / 1000);
+  console.log("After Date");
   
   // Generate a signature using the secret key
   const signature = cloudinary.utils.api_sign_request(
     { timestamp, upload_preset: "Post" },
     process.env.API_SECRET
   );
+  console.log(signature);
 
   // Send the signature, timestamp, and API key to the frontend
   res.json({ timestamp, signature, api_key: process.env.API_KEY });
