@@ -9,6 +9,6 @@ router.get("/:id", getUserById);   // Get a single user
 router.post("/", createUser);      // Create a new user
 router.delete("/:id", deleteUser); // Delete a user
 router.post("/follow", followUser);
-router.post("/search/:username", searchUsers);
+router.get("/search/:username", searchUsers);
 
 module.exports = router;
