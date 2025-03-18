@@ -1,0 +1,26 @@
+const express = require("express");
+const cloudinary = require("cloudinary").v2;
+require("dotenv").config();
+
+const router = express.Router();
+
+// Configure Cloudinary (API credentials from .env)
+cloudinary.config({
+    cloudinary_url: process.env.CLOUDINARY_URL,
+  });
+
+// Generate a signed upload signature
+router.get("/generate-signature", (req, res) => {
+  const timestamp = Math.round(new Date().getTime() / 1000);
+  
+  // Generate a signature using the secret key
+  const signature = cloudinary.utils.api_sign_request(
+    { timestamp, upload_preset: "Post" },
+    process.env.API_SECRET
+  );
+
+  // Send the signature, timestamp, and API key to the frontend
+  res.json({ timestamp, signature, api_key: process.env.API_KEY });
+});
+
+module.exports = router;
