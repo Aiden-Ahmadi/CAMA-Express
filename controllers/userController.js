@@ -48,5 +48,45 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const searchUsers = async (req, res) => {
+  try {
+    const { username } = req.query;
+    const users = await User.find({ username: { $regex: username, $options: "i" } }).select("_id username");
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+}
+
+const followUser = async (req, res) => {
+  try {
+    const { followerId, followingId } = req.body;
+
+    const follower = await User.findById(followerId);
+    const following = await User.findById(followingId);
+
+    if (!follower || !following) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Add followingId to follower's following list
+    if (!follower.followingIds.includes(followingId)) {
+      follower.followingIds.push(followingId);
+      await follower.save();
+    }
+
+    // Add followerId to following's followers list
+    if (!following.followerIds.includes(followerId)) {
+      following.followerIds.push(followerId);
+      await following.save();
+    }
+
+    res.json({ message: "User followed successfully!" });
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+}
+
+
 // Export all functions
-module.exports = { getUsers, getUserById, createUser, deleteUser };
+module.exports = { getUsers, getUserById, createUser, deleteUser, followUser, searchUsers };
