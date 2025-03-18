@@ -50,7 +50,9 @@ const deleteUser = async (req, res) => {
 
 const searchUsers = async (req, res) => {
   try {
+    console.log("start of search");
     const { username } = req.query;
+    console.log(username);
     const users = await User.find({ username: { $regex: username, $options: "i" } }).select("_id username");
     res.json(users);
   } catch (error) {
