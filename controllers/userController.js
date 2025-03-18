@@ -54,6 +54,7 @@ const searchUsers = async (req, res) => {
     const users = await User.find({ username: { $regex: username, $options: "i" } }).select("_id username");
     res.json(users);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Server error" });
   }
 }
