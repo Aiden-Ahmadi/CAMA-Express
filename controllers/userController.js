@@ -91,7 +91,10 @@ const followUser = async (req, res) => {
 }
 const unfollowUser = async (req, res) => {
   try {
+    console.log("Here");
     const { followerId, followingId } = req.body;
+    console.log(followingId);
+    console.log(followerId);
 
     const follower = await User.findById(followerId);
     const following = await User.findById(followingId);
@@ -101,7 +104,7 @@ const unfollowUser = async (req, res) => {
     }
 
     // Unadd followingId to follower's following list
-    if (!follower.followingIds.includes(followingId)) {
+    if (follower.followingIds.includes(followingId)) {
       await User.updateOne(
         { _id: followerId },
         { $pull: { followingIds: followingId } } 
@@ -109,7 +112,7 @@ const unfollowUser = async (req, res) => {
     }
 
     // unAdd followerId to following's followers list
-    if (!following.followerIds.includes(followerId)) {
+    if (following.followerIds.includes(followerId)) {
       await User.updateOne(
         { _id: followingId },
         { $pull: { followingIds: followerId } } 
