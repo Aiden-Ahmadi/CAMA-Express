@@ -100,19 +100,23 @@ const unfollowUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Add followingId to follower's following list
+    // Unadd followingId to follower's following list
     if (!follower.followingIds.includes(followingId)) {
-      follower.followingIds.pull(followingId);
-      await follower.save();
+      await User.updateOne(
+        { _id: followerId },
+        { $pull: { followingIds: followingId } } 
+      )
     }
 
-    // Add followerId to following's followers list
+    // unAdd followerId to following's followers list
     if (!following.followerIds.includes(followerId)) {
-      following.followerIds.pull(followerId);
-      await following.save();
+      await User.updateOne(
+        { _id: followingId },
+        { $pull: { followingIds: followerId } } 
+      )
     }
 
-    res.json({ message: "User followed successfully!" });
+    res.json({ message: "User unfollowed successfully!" });
   } catch (error) {
     res.status(500).json({ error: "Server error" });
   }
