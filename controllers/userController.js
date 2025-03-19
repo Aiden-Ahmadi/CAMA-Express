@@ -89,6 +89,34 @@ const followUser = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 }
+const unfollowUser = async (req, res) => {
+  try {
+    const { followerId, followingId } = req.body;
+
+    const follower = await User.findById(followerId);
+    const following = await User.findById(followingId);
+
+    if (!follower || !following) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Add followingId to follower's following list
+    if (!follower.followingIds.includes(followingId)) {
+      follower.followingIds.pull(followingId);
+      await follower.save();
+    }
+
+    // Add followerId to following's followers list
+    if (!following.followerIds.includes(followerId)) {
+      following.followerIds.pull(followerId);
+      await following.save();
+    }
+
+    res.json({ message: "User followed successfully!" });
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+}
 const followedUsers = async (req, res) => {
     try {
         const user = await User.findById(req.params.id).populate("followingIds", "_id username");
@@ -103,4 +131,4 @@ const followedUsers = async (req, res) => {
 
 
 // Export all functions
-module.exports = { getUsers, getUserById, createUser, deleteUser, followUser, searchUsers, followedUsers };
+module.exports = { getUsers, getUserById, createUser, deleteUser, followUser, unfollowUser, searchUsers, followedUsers };
