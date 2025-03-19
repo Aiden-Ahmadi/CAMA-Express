@@ -89,7 +89,18 @@ const followUser = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 }
+const followedUsers = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id).populate("followingIds", "_id username");
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        res.json(user.followingIds);
+    } catch (error) {
+        console.error("Error fetching following list:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+}
 
 
 // Export all functions
-module.exports = { getUsers, getUserById, createUser, deleteUser, followUser, searchUsers };
+module.exports = { getUsers, getUserById, createUser, deleteUser, followUser, searchUsers, followedUsers };
