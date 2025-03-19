@@ -57,7 +57,7 @@ const searchUsers = async (req, res) => {
     res.json(users);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server error in search Users" });
   }
 }
 
