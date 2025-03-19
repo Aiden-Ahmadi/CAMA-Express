@@ -9,6 +9,10 @@ router.get("/:id", getUserById);   // Get a single user
 router.post("/", createUser);      // Create a new user
 router.delete("/:id", deleteUser); // Delete a user
 router.post("/follow", followUser);
-router.get("/search", searchUsers);
+router.get("/search", (req, res, next) => {
+    console.log("✅ Received GET /search request with query:", req.query); // Debugging log
+    next();
+}, searchUsers);
+//router.get("/search", searchUsers);
 
 module.exports = router;
