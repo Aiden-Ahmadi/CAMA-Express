@@ -3,7 +3,7 @@ const User = require("../models/User");
 
 const getUserPosts = async (req, res) => {
     try {
-        const posts = await Post.find({userId : req.params.id});
+      const posts = await Post.find({ userId: req.params.id }).sort({ createdAt: -1 });
         if (!posts) return res.status(404).json({ message: "User not found" });
         res.json(posts);
     } catch (error) {
