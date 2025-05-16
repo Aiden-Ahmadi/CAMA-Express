@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey"; // Replace with an environment variable
 
-// ✅ Register a New User
+
 const registerUser = async (req, res) => {
     try {
       const { username, email, password } = req.body;
@@ -28,7 +28,6 @@ const registerUser = async (req, res) => {
   };
   
 
-// ✅ Login User
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;

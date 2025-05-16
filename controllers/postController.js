@@ -20,7 +20,7 @@ const getFeedPosts = async (req, res) => {
 
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Fetch posts only from users in the `following` list
+    // Fetch posts only from users in the following list
     const posts = await Post.find({ userId: { $in: user.followingIds } })
       .populate("userId", "username profileImage")
       .sort({ createdAt: -1 }); // Show newest first
